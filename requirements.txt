@@ -1,5 +1,4 @@
 flask
-flask_request_params
 autopep8
 python-dotenv
 mysql-connector-python
