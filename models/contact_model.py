@@ -1,19 +1,15 @@
-import json
 from models.database import MySQLDB
+from utils.jsonConverter import toJson
 
 
-class Contact:
-    def __init__(self, db: MySQLDB) -> None:
-        self.contactId = None
-        self.contact = None
-        self.userId = None
+class Contact():
+    def __init__(self, db: MySQLDB):
+        self.__dbConnection = db.connection
+        self.__contacts = self.__fetch_all()
 
-        # MySQL
-        self.connection = db.connection
-
-    def query(self, sql, params=[], isEdit=False):
-        self.connection.connect()
-        cursor = self.connection.cursor()
+    def __query(self, sql, params=[], isEdit=False):
+        self.__dbConnection.connect()
+        cursor = self.__dbConnection.cursor()
 
         if (len(params) == 0):
             cursor.execute(sql)
@@ -22,25 +18,33 @@ class Contact:
 
         results = cursor.fetchall()
 
+        if not isEdit:
+            fields_list = cursor.description
+
         if (isEdit):
-            self.connection.commit()
+            self.__dbConnection.commit()
+            cursor.close()
+            self.__dbConnection.close()
+            return 'Done'
 
         cursor.close()
-        self.connection.close()
+        self.__dbConnection.close()
 
-        return json.dumps(results)
+        return toJson(fields_list, results)
+
+    def __fetch_all(self):
+        sql = 'SELECT contact, contactId, userId FROM contact'
+        return self.__query(sql)
 
     def get_all(self):
-        sql = 'SELECT contactId, contact, userId FROM contact'
-        rows = self.query(sql)
-        return rows
+        return self.__contacts
 
     def get_one(self, contactId):
         sql = 'SELECT contactId, contact, userId FROM contact WHERE contactId = %s'
-        row = self.query(sql, [contactId])
+        row = self.__query(sql, [contactId])
         return row
 
     def update(self, contactId, phone):
         sql = "UPDATE contact SET contact = %s, updatedAt = CURRENT_TIMESTAMP WHERE contactId = %s"
-        row = self.query(sql, [phone, contactId], True)
+        row = self.__query(sql, [phone, contactId], True)
         return row

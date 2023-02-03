@@ -2,8 +2,9 @@ from models.database import MySQLDB
 from models.contact_model import Contact
 
 
-# Modèles
-contact = Contact(MySQLDB())
+# Models
+db = MySQLDB()
+contact = Contact(db)
 
 
 def find_all_contacts():

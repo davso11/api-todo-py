@@ -17,11 +17,9 @@ def get_one(contactId):
     return resp
 
 
-@contact_bp.route('/api/contacts/', methods=['PUT', 'POST'])
-def update():
+@contact_bp.route('/api/contacts/<contactId>', methods=['PUT', 'POST'])
+def update(contactId):
     reqBody = request.get_json()
-    contact_id = reqBody.get('contactId')
     phone = reqBody.get('phone')
-    # print(f'ID = {contact_id}\nPhone = {phone}')
-    resp = main_services.update(contact_id, phone)
+    resp = main_services.update(contactId, phone)
     return resp, 204
