@@ -1,13 +1,13 @@
-from os import getenv
-from dotenv import load_dotenv
 from flask import Flask
-from routes.contact_routes import contact_bp
+from dotenv import load_dotenv
+from os import getenv
+from routes.todo_routes import todo_bp
 
 load_dotenv()
 
 app = Flask(__name__)
 
-app.register_blueprint(contact_bp)
+app.register_blueprint(todo_bp)
 
 PORT = int(getenv('PORT'))
-app.run(port=PORT)
+app.run('127.0.0.1', port=PORT, debug=True)
