@@ -1,4 +1,5 @@
 flask
 autopep8
+virtualenv
 python-dotenv
 mysql-connector-python
