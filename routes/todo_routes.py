@@ -17,6 +17,7 @@ def active_todos_controller():
     req_body = request.get_json()
 
     if not req_body.get('userId'):
+        db_connection.close()
         return jsonify(
             message='Missing paramater `userId` in the req body',
             userId=req_body.get('userId')
@@ -27,6 +28,7 @@ def active_todos_controller():
     is_user = user.get_user(user_id)
 
     if not is_user:
+        db_connection.close()
         return jsonify(
             message="No User With That ID Found",
             userId=user_id,
@@ -35,6 +37,7 @@ def active_todos_controller():
 
     active_todos_numb = todo.get_active()
 
+    db_connection.close()
     return jsonify(
         active=active_todos_numb[0]
     ), 200
@@ -46,6 +49,7 @@ def done_todos_controller():
     user_id=req_body.get('userId')
 
     if not user_id:
+        db_connection.close()
         return jsonify(
             message='Missing paramater `userId` in the req body',
             userId=user_id
@@ -55,6 +59,7 @@ def done_todos_controller():
     is_user = user.get_user(user_id)
 
     if not is_user:
+        db_connection.close()
         return jsonify(
             message="No User With That ID Found",
             userId=user_id,
@@ -62,6 +67,7 @@ def done_todos_controller():
 
     done_todos_numb = todo.get_completed()
 
+    db_connection.close()
     return jsonify(
         done=done_todos_numb[0]
     ), 200
