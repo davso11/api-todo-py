@@ -1,5 +1,6 @@
 from mysql.connector import MySQLConnection
 
+
 class Todo:
     def __init__(self, db_connection: MySQLConnection):
         self.connection = db_connection
@@ -9,7 +10,7 @@ class Todo:
         self.connection.connect()
         cursor = self.connection.cursor()
 
-        sql = "SELECT COUNT(id) FROM todo"
+        sql = "SELECT COUNT(id) FROM todo WHERE isDone = 0"
         cursor.execute(sql)
         result = cursor.fetchone()
 
@@ -23,7 +24,7 @@ class Todo:
         self.connection.connect()
         cursor = self.connection.cursor()
 
-        sql = "SELECT COUNT(id) FROM todo"
+        sql = "SELECT COUNT(id) FROM todo WHERE isDone = 1"
         cursor.execute(sql)
         result = cursor.fetchone()
 
