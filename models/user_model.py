@@ -18,6 +18,3 @@ class User:
         self.connection.close()
 
         return result
-
-    def get_completed(self):
-        pass
