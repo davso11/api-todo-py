@@ -51,13 +51,13 @@ def active_todos_controller():
         resp.headers['Access-Control-Allow-Origin'] = '*'
         return resp, 401
 
-    active_todos_numb = todo.get_active()
-    done_todos_numb = todo.get_completed()
+    important_todos_numb = todo.get_important()
+    normal_todos_numb = todo.get_normal()
 
     db_connection.close()
     resp = make_response(jsonify(
-        active=active_todos_numb[0],
-        done=done_todos_numb[0],
+        normal=normal_todos_numb[0],
+        important=important_todos_numb[0],
     ))
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp, 200
