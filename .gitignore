@@ -38,3 +38,8 @@ MANIFEST
 
 # C extensions
 *.so
+
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
